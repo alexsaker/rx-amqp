@@ -6,8 +6,61 @@ This library was built on top of amqp library and uses the power of rxjs to crea
 usage.
 
 ## Getting Started
+Usage Example
+```
+import { RxAmqpConnection, RxAmqpQueue, RxAmqpExchange } from "rx-amqp";
+import { filter, map, combineAll, switchMap } from "rxjs/operators";
+import { pipe } from "rxjs/Rx";
+import { Observable } from "rxjs/internal/Observable";
 
-TO BE DONE
+const rmqpConnectionOptions = {
+  host: "localhost",
+  port: 5672,
+  login: "login",
+  password: "password",
+  vhost: "vhost"
+};
+const rxAmqp = new RxAmqpConnection(rmqpConnectionOptions);
+const rxFlow = rxAmqp.connect().pipe(
+  switchMap(connection => {
+    const rxQueueObject = new RxAmqpQueue(
+      connection,
+      "myNewQueue",
+      { durable: true },
+      () => {
+        console.log("Created queue: myNewQueue!");
+      }
+    );
+    return Observable.of(rxQueueObject.connection);
+  }),
+  switchMap(connection => {
+    const rxExchangeObject = new RxAmqpExchange(
+      connection,
+      "myNewExchange",
+      {
+        type: "topic"
+      },
+      () => {
+        console.log("Created exchange: myNewExchange!");
+      }
+    );
+    return Observable.of(rxExchangeObject);
+  }),
+
+  switchMap(exchange => {
+    exchange.publish("myKey", { message: "new message" });
+    return Observable.of(exchange);
+  })
+);
+
+rxFlow
+  .combineAll()
+  .subscribe(
+    () => console.log("Starting"),
+    error => console.error(error),
+    () => console.log("Completed")
+  );
+```
 
 
 ### Prerequisites
