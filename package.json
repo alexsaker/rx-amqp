@@ -1,0 +1,39 @@
+{
+  "name": "rx-amqp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build/index.js",
+  "scripts": {
+    "clean": "rimraf dist build",
+    "lint": "tslint src/**/*.ts",
+    "build:dev": "cross-env NODE_ENV=dev webpack --watch --display-chunks",
+    "serve:dev": "nodemon --watch build/index.js",
+    "watch:dev": "npm-run-all clean lint --parallel build:dev serve:dev",
+    "build:prod": "cross-env NODE_ENV=prod webpack --watch",
+    "serve:prod": "nodemon --watch build/index.js",
+    "watch:prod": "npm-run-all clean lint --parallel build:prod serve:prod"
+  },
+  "keywords": [],
+  "author": "Alexandre Saker",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/amqp": "^0.2.3",
+    "@types/node": "^9.4.4",
+    "babel-cli": "^6.22.2",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "cross-env": "^5.1.3",
+    "nodemon": "^1.14.12",
+    "npm-run-all": "^4.1.2",
+    "rimraf": "^2.6.2",
+    "ts-loader": "^3.5.0",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.1",
+    "webpack": "^3.10.0",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "dependencies": {
+    "amqp": "^0.2.6",
+    "rxjs": "^6.0.0-alpha.3"
+  }
+}
