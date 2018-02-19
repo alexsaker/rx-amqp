@@ -8,7 +8,7 @@
     "lint": "tslint src/**/*.ts",
     "build:dev": "npm run clean && cross-env NODE_ENV=dev webpack",
     "serve:dev": "nodemon --watch build/rx-amqp.js",
-    "watch:dev": "npm-run-all clean lint --parallel build:dev serve:dev",
+    "watch:dev": "npm-run-all clean lint --parallel \"build:dev -- --watch\" serve:dev",
     "build:prod": "npm run clean && cross-env NODE_ENV=prod webpack",
     "serve:prod": "nodemon --watch dist/rx-amqp.min.js",
     "watch:prod": "npm-run-all clean lint --parallel \"build:prod -- --watch\" serve:prod"
@@ -25,7 +25,7 @@
     "babel-minify-webpack-plugin": "^0.3.0",
     "babel-preset-env": "^1.6.1",
     "cross-env": "^5.1.3",
-    "nodemon": "^1.14.12",
+    "nodemon": "1.14.12",
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",
     "ts-loader": "^3.5.0",
